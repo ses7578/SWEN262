@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class GetItinerary {
     private Airport originAirport;
     private Airport destinationAirport;

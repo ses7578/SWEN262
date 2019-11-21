@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class AFRS {
     public String getItinerary(Airport a, Airport o, int i, Itineray itineray)
     {

@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class MakeReservation {
     private Itineray itinerayID;
     private String passenger;

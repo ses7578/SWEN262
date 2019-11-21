@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class Flight {
     Airport originAirport;
     Airport destinationAirport;

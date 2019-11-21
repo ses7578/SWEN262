@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class GetReservation {
 
     private String passenger;

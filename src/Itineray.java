@@ -1,4 +1,6 @@
-
+/**
+ * @author: Shannon
+ */
 public class Itineray {
     Airport originAirport;
     Airport destinationAirport;

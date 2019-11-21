@@ -1,3 +1,6 @@
+/**
+ * @author: Shannon
+ */
 public class DeleteReservation {
     String passenger;
     Airport originAirport;
