@@ -8,19 +8,19 @@ import java.util.Scanner;
  */
 public class Flight
 {
-    int flightID;
-    Airport originAirport;
-    Airport destinationAirport;
-    String departureTime;
-    String arrivalTime;
-    int airfare;
-    static ArrayList<Flight> flights = new ArrayList<>();
+    private int flightID;
+    private Airport originAirport;
+    private Airport destinationAirport;
+    private String departureTime;
+    private String arrivalTime;
+    private int airfare;
+    private static ArrayList<Flight> flights = new ArrayList<>();
 
     /**
      * Creates the list of flights
      * @throws IOException if the URL is not found
      */
-    public Flight() throws IOException
+    Flight() throws IOException
     {
         createFlight();
     }
@@ -34,7 +34,7 @@ public class Flight
      * @param flightID the flight ID
      * @param airfare the cost of the flight
      */
-    public Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare)
+    private Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare)
     {
         originAirport = o;
         destinationAirport = d;
@@ -48,7 +48,8 @@ public class Flight
      * Helper to take the file and create a list of flights
      * @throws IOException if the URL is not accessible
      */
-    public void createFlight() throws IOException {
+    private void createFlight() throws IOException
+    {
         URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt");
         Scanner scan = new Scanner(url.openStream());
         while(scan.hasNextLine())
@@ -63,7 +64,7 @@ public class Flight
         }
     }
 
-    public static Flight getFlight(Airport origin, Airport destination)
+    static Flight getFlight(Airport origin, Airport destination)
     {
         for(Flight f: flights)
         {
@@ -75,7 +76,7 @@ public class Flight
         return null;
     }
 
-    public static ArrayList<Flight> getAllFlights(Airport origin, Airport destination)
+    static ArrayList<Flight> getAllFlights(Airport origin, Airport destination)
     {
         ArrayList<Flight> f = new ArrayList<>();
         for(Flight flight: flights)
@@ -88,6 +89,16 @@ public class Flight
         return f;
     }
 
+    Airport getOriginAirport()
+    {
+        return originAirport;
+    }
+
+    Airport getDestinationAirport()
+    {
+        return destinationAirport;
+    }
+
     @Override
     public String toString()
     {
@@ -95,8 +106,4 @@ public class Flight
                 +" Departure: "+departureTime+ " Arrival: " + arrivalTime+" Cost: $"+airfare;
     }
 
-    public static void main(String[] args) throws IOException {
-        new Airport();
-        new Flight();
-    }
 }

@@ -4,11 +4,12 @@ import java.util.HashMap;
 /**
  * @author Shannon Sloan
  */
-public class Reservation {
-    static HashMap<String, Flight> reservations = new HashMap<>();
-    static ArrayList<Reservation> reservation = new ArrayList<>();
-    String passenger;
-    Flight flight;
+public class Reservation
+{
+    private static HashMap<String, Flight> reservations = new HashMap<>();
+    private static ArrayList<Reservation> reservation = new ArrayList<>();
+    private String passenger;
+    private Flight flight;
 
     /**
      * Creates a reservation
@@ -31,11 +32,11 @@ public class Reservation {
      * @param destination the ending destination
      * @return the reservation
      */
-    public static Reservation getReservation(String p, Airport origin, Airport destination)
+    static Reservation getReservation(String p, Airport origin, Airport destination)
     {
         for(Reservation r: reservation)
         {
-            if(r.passenger.equals(p)&&r.flight.originAirport.equals(origin)&&(r.flight.destinationAirport.equals(destination)))
+            if(r.passenger.equals(p)&&r.flight.getOriginAirport().equals(origin)&&(r.flight.getDestinationAirport().equals(destination)))
                 return r;
         }
         return null;
@@ -44,8 +45,8 @@ public class Reservation {
     /**
      * Makes a specific reservation
      * @param p the passenger
-     * @param origin
-     * @param destination
+     * @param origin the origin airport
+     * @param destination the destination airport
      */
     public static void makeReservation(String p, Airport origin, Airport destination)
     {
@@ -55,14 +56,14 @@ public class Reservation {
     /**
      * deletes a specific reservation
      * @param p the passenger
-     * @param origin
-     * @param destination
+     * @param origin the origin airport
+     * @param destination the destination airport
      */
-    public static void deleteReservation(String p, Airport origin, Airport destination)
+    static void deleteReservation(String p, Airport origin, Airport destination)
     {
         for(Reservation r: reservation)
         {
-            if(r.passenger.equals(p)&&r.flight.originAirport.equals(origin)&&r.flight.destinationAirport.equals(destination))
+            if(r.passenger.equals(p)&&r.flight.getOriginAirport().equals(origin)&&r.flight.getDestinationAirport().equals(destination))
             {
                 reservation.remove(r);
                 Itinerary.removeFlight(p, origin, destination);

@@ -8,7 +8,8 @@ import java.util.Scanner;
  * Class to hold all airports
  * @author: Shannon
  */
-public class Airport {
+public class Airport
+{
     String airportCode;
     private String airportName;
     private HashMap<String, Integer> weather;
@@ -21,7 +22,8 @@ public class Airport {
      * Creates a list of all airports
      * @throws IOException if there is not an ability to access the URL
      */
-    Airport() throws IOException {
+    Airport() throws IOException
+    {
         createAirports();
     }
 
@@ -44,7 +46,8 @@ public class Airport {
      * Takes all text files and puts them into the airports and then into the lists
      * @throws IOException if there is not an ability to access the URL
      */
-    void createAirports() throws IOException {
+    private void createAirports() throws IOException
+    {
         URL f = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/airports.txt");
         URL c = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/delays.txt");
         URL file = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/connections.txt");
@@ -73,7 +76,7 @@ public class Airport {
      * Puts the weather for the flight
      * @param weather the weather for that airport
      */
-    void addWeather(HashMap<String, Integer> weather)
+    private void addWeather(HashMap<String, Integer> weather)
     {
         this.weather = weather;
     }
@@ -85,6 +88,7 @@ public class Airport {
      */
     static Airport getAirport(String aCode)
     {
+        aCode = aCode.toUpperCase();
         for(Airport a: airports)
         {
             if(a.getAirportCode().equals(aCode))

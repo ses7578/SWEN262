@@ -8,16 +8,17 @@ import java.util.Scanner;
 /**
  * @author Shannon Sloan
  */
-public class Weather {
-    String airportCode;
+public class Weather
+{
+    private String airportCode;
     private HashMap<String, Integer> airportWeather = new HashMap<>();
-    static ArrayList<Weather> weather = new ArrayList<>();
+    private static ArrayList<Weather> weather = new ArrayList<>();
 
     /**
      * takes the weather and puts it in a list for all of the airports
      * @throws IOException if the URL is not found
      */
-    public Weather() throws IOException
+    Weather() throws IOException
     {
         createWeather();
     }
@@ -27,7 +28,7 @@ public class Weather {
      * @param aCode airport code
      * @param w the list of weathers
      */
-    public Weather(String aCode, HashMap<String, Integer> w)
+    private Weather(String aCode, HashMap<String, Integer> w)
     {
         airportCode = aCode;
         airportWeather = w;
@@ -37,7 +38,8 @@ public class Weather {
      * Creates the weather
      * @throws IOException if the URL is not found
      */
-    public void createWeather() throws IOException {
+    private void createWeather() throws IOException
+    {
         URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/weather.txt");
         Scanner scanner = new Scanner(url.openStream());
         while(scanner.hasNextLine())
@@ -58,7 +60,7 @@ public class Weather {
      * @param a the airport
      * @return the weather
      */
-    public static HashMap<String, Integer> getWeather(Airport a)
+    static HashMap<String, Integer> getWeather(Airport a)
     {
         for(Weather w : weather)
         {
@@ -69,23 +71,13 @@ public class Weather {
     }
 
     @Override
-    public String toString(){
+    public String toString()
+    {
         String s = "The weather for "+airportCode+" is ";
         for(Map.Entry mapElement : airportWeather.entrySet())
         {
             s = s+mapElement.getKey()+" "+mapElement.getValue();
         }
         return s;
-    }
-
-    public static void main(String[] args)
-    {
-        try {
-            new Weather();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Airport a = Airport.getAirport("ATL");
-        System.out.println(Weather.getWeather(a));
     }
 }

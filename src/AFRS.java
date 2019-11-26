@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,20 +33,38 @@ public class AFRS
         return Reservation.getReservation(p, o, d);
     }
 
-    public static Flight getFlight(Airport o, Airport d)
+    /**
+     *
+     * @param o the origin airport
+     * @param d the destination airport
+     * @return a flight connecting the two airports
+     */
+    private static Flight getFlight(Airport o, Airport d)
     {
         return Flight.getFlight(o, d);
     }
 
+    /**
+     *
+     * @param o the starting airport
+     * @param d the ending airport
+     * @return the flights that go between those two
+     */
     public static ArrayList<Flight> getAllFlights(Airport o, Airport d)
     {
         return Flight.getAllFlights(o, d);
     }
 
-    public static Airport getAirport(String aCode)
+    /**
+     *
+     * @param aCode the airport code
+     * @return the airport with that code
+     */
+    private static Airport getAirport(String aCode)
     {
         return Airport.getAirport(aCode);
     }
+
     /**
      *
      * @param i itinerary
@@ -64,7 +81,7 @@ public class AFRS
      * @param o origin airport
      * @param d destination airport
      */
-    public static void deleteReservation(String p, Airport o, Airport d)
+    private static void deleteReservation(String p, Airport o, Airport d)
     {
         Reservation.deleteReservation(p, o, d);
     }
@@ -78,6 +95,7 @@ public class AFRS
         String input;
         while(!(input = scan.nextLine()).equals("quit"))
         {
+            input = input.replace(" ", "");
             String[] key = input.split(",");
             switch(key[0])
             {
