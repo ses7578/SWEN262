@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * The main server for the class
@@ -31,7 +34,20 @@ public class AFRS
         return Reservation.getReservation(p, o, d);
     }
 
+    public static Flight getFlight(Airport o, Airport d)
+    {
+        return Flight.getFlight(o, d);
+    }
 
+    public static ArrayList<Flight> getAllFlights(Airport o, Airport d)
+    {
+        return Flight.getAllFlights(o, d);
+    }
+
+    public static Airport getAirport(String aCode)
+    {
+        return Airport.getAirport(aCode);
+    }
     /**
      *
      * @param i itinerary
@@ -41,26 +57,58 @@ public class AFRS
     {
     }
 
+
     /**
      * deletes a specific reservation for a passenger
      * @param p passenger
      * @param o origin airport
      * @param d destination airport
      */
-    public void deleteReservation(String p, Airport o, Airport d)
+    public static void deleteReservation(String p, Airport o, Airport d)
     {
-
+        Reservation.deleteReservation(p, o, d);
     }
 
     public static void main(String[] args) throws IOException
     {
         new Airport();
         new Flight();
-        Reservation r = AFRS.getReservation("Sally", Airport.getAirport("SEA"), Airport.getAirport("BOS"));
-        if(r == null)
-            System.out.println("There are no reservations");
-        else
-            System.out.println(r);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter a command");
+        String input;
+        while(!(input = scan.nextLine()).equals("quit"))
+        {
+            String[] key = input.split(",");
+            switch(key[0])
+            {
+                case "airport":
+                    if(key.length!=2)
+                        System.out.println("There was an error reading your command");
+                    else
+                        System.out.println(AFRS.getAirport(key[1]));
+                    break;
+                case "info":
+                    Airport o = AFRS.getAirport(key[1]);
+                    Airport d = AFRS.getAirport(key[2]);
+                    System.out.println(AFRS.getFlight(o,d));
+                    break;
+                case "reserve":
+                    System.out.println("This is where reserved would be");
+                case "help":
+                    System.out.println("These are the commands you can run: ");
+                    System.out.println("airport,airportCode");
+                    System.out.println("info,airportCode1,airportCode2");
+                    break;
+                case "delete":
+                    String p = key[1];
+                    Airport oA = AFRS.getAirport(key[2]);
+                    Airport dA = AFRS.getAirport(key[3]);
+                    AFRS.deleteReservation(p, oA, dA);
+                default:
+                    System.out.println("Unrecognized command");
+            }
+
+        }
     }
 
 }

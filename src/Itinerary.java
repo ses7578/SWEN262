@@ -53,12 +53,21 @@ public class Itinerary {
     /**
      * removes a flight from the itinerary
      * @param p the passenger
-     * @param f the flight
+     * @param origin
+     * @param destination
      */
-    public static void removeFlight(String p, Flight f)
+    public static void removeFlight(String p, Airport origin, Airport destination)
     {
-        if(itinerary.containsKey(p))
-            itinerary.get(p).remove(f);
+        ArrayList<Flight> flights = itinerary.get(p);
+        for(Flight f: flights)
+        {
+            if(f.originAirport.equals(origin)&&f.destinationAirport.equals(destination))
+            {
+                flights.remove(f);
+            }
+        }
+        itinerary.remove(p);
+        itinerary.put(p, flights);
     }
 
     @Override

@@ -44,23 +44,30 @@ public class Reservation {
     /**
      * Makes a specific reservation
      * @param p the passenger
-     * @param f the flight
+     * @param origin
+     * @param destination
      */
-    public static void makeReservation(String p, Flight f)
+    public static void makeReservation(String p, Airport origin, Airport destination)
     {
-        reservations.put(p, f);
-        Itinerary.addFlight(f, p);
+
     }
 
     /**
      * deletes a specific reservation
      * @param p the passenger
-     * @param f the flight
+     * @param origin
+     * @param destination
      */
-    public static void deleteReservation(String p, Flight f)
+    public static void deleteReservation(String p, Airport origin, Airport destination)
     {
-        reservations.remove(p, f);
-        Itinerary.removeFlight(p, f);
+        for(Reservation r: reservation)
+        {
+            if(r.passenger.equals(p)&&r.flight.originAirport.equals(origin)&&r.flight.destinationAirport.equals(destination))
+            {
+                reservation.remove(r);
+                Itinerary.removeFlight(p, origin, destination);
+            }
+        }
     }
 
     @Override

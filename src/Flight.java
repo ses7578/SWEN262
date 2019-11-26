@@ -61,16 +61,37 @@ public class Flight
                     Integer.valueOf(split[5])));
 
         }
+    }
+
+    public static Flight getFlight(Airport origin, Airport destination)
+    {
         for(Flight f: flights)
         {
-            System.out.println(f);
+            if(f.originAirport.equals(origin)&& f.destinationAirport.equals(destination))
+            {
+                return f;
+            }
         }
+        return null;
+    }
+
+    public static ArrayList<Flight> getAllFlights(Airport origin, Airport destination)
+    {
+        ArrayList<Flight> f = new ArrayList<>();
+        for(Flight flight: flights)
+        {
+            if(flight.originAirport.equals(origin)&&flight.destinationAirport.equals(destination))
+            {
+                f.add(flight);
+            }
+        }
+        return f;
     }
 
     @Override
     public String toString()
     {
-        return "Flight: from Airport " + originAirport.getAirportCode()+" to Airport "+destinationAirport.getAirportCode()
+        return "Flight number "+flightID+": from Airport " + originAirport.getAirportCode()+" to Airport "+destinationAirport.getAirportCode()
                 +" Departure: "+departureTime+ " Arrival: " + arrivalTime+" Cost: $"+airfare;
     }
 
