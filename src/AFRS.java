@@ -37,7 +37,7 @@ public class AFRS
      *
      * @param o the origin airport
      * @param d the destination airport
-     * @return a flight connecting the two airports
+     * @return a flight connecting the two airports.txt
      */
     private static Flight getFlight(Airport o, Airport d)
     {
@@ -48,7 +48,7 @@ public class AFRS
      *
      * @param o the starting airport
      * @param d the ending airport
-     * @return the flights that go between those two
+     * @return the flights.txt that go between those two
      */
     public static ArrayList<Flight> getAllFlights(Airport o, Airport d)
     {

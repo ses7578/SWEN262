@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Weather
     private static ArrayList<Weather> weather = new ArrayList<>();
 
     /**
-     * takes the weather and puts it in a list for all of the airports
+     * takes the weather and puts it in a list for all of the airports.txt
      * @throws IOException if the URL is not found
      */
     Weather() throws IOException
@@ -42,6 +43,8 @@ public class Weather
     {
         URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/weather.txt");
         Scanner scanner = new Scanner(url.openStream());
+        /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\weather.txt");
+        Scanner scanner = new Scanner(url);*/
         while(scanner.hasNextLine())
         {
             String s = scanner.nextLine();

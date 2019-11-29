@@ -1,11 +1,13 @@
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * Class to hold all airports
+ * Class to hold all airports.txt
  * @author: Shannon
  */
 public class Airport
@@ -19,7 +21,7 @@ public class Airport
 
 
     /**
-     * Creates a list of all airports
+     * Creates a list of all airports.txt
      * @throws IOException if there is not an ability to access the URL
      */
     Airport() throws IOException
@@ -28,7 +30,7 @@ public class Airport
     }
 
     /**
-     * Helper class to make the individual airports
+     * Helper class to make the individual airports.txt
      * @param airportCode 3 character code unique to each airport
      * @param airportName the name of the airport
      * @param delay the current delay time for the airport
@@ -43,7 +45,7 @@ public class Airport
     }
 
     /**
-     * Takes all text files and puts them into the airports and then into the lists
+     * Takes all text files and puts them into the airports.txt and then into the lists
      * @throws IOException if there is not an ability to access the URL
      */
     private void createAirports() throws IOException
@@ -54,6 +56,12 @@ public class Airport
         Scanner scan = new Scanner(c.openStream());
         Scanner scanner1 = new Scanner(file.openStream());
         Scanner scanner = new Scanner(f.openStream());
+        /*File f = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\airports.txt");
+        File c = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\delays.txt");
+        File file = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\connections.txt");
+        Scanner scanner = new Scanner(f);
+        Scanner scan = new Scanner(c);
+        Scanner scanner1 = new Scanner(file);*/
         while(scanner.hasNextLine())
         {
             String s = scanner.nextLine();
@@ -109,7 +117,7 @@ public class Airport
 
     /**
      * @param obj the airport being comapred to
-     * @return if the airports are the same
+     * @return if the airports.txt are the same
      */
     boolean equals(Airport obj) {
         return this.airportCode == obj.airportCode;

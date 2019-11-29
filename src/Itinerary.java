@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,10 +14,10 @@ public class Itinerary
 
     /**
      * Creates the itinerary
-     * @param flights the flights for the itinerary already
+     * @param flights the flights.txt for the itinerary already
      * @param passenger the passenger who's itinerary is
      */
-    private Itinerary(ArrayList<Flight> flights, String passenger)
+    Itinerary(ArrayList<Flight> flights, String passenger)
     {
         this.flights = flights;
         this.passenger = passenger;
@@ -49,6 +50,17 @@ public class Itinerary
         ArrayList<Flight> f = itinerary.get(p);
         Itinerary i = new Itinerary(f, p);
         return i.toString();
+    }
+
+    static int getPrice(String p)
+    {
+        int price = 0;
+        ArrayList<Flight> flights = itinerary.get(p);
+        for(Flight f: flights)
+        {
+            price += f.getAirfare();
+        }
+        return price;
     }
 
     /**

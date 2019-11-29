@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,7 +19,7 @@ public class Flight
     private static ArrayList<Flight> flights = new ArrayList<>();
 
     /**
-     * Creates the list of flights
+     * Creates the list of flights.txt
      * @throws IOException if the URL is not found
      */
     Flight() throws IOException
@@ -45,13 +47,15 @@ public class Flight
     }
 
     /**
-     * Helper to take the file and create a list of flights
+     * Helper to take the file and create a list of flights.txt
      * @throws IOException if the URL is not accessible
      */
     private void createFlight() throws IOException
     {
-        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt");
+        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt.txt");
         Scanner scan = new Scanner(url.openStream());
+        /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\flights.txt");
+        Scanner scan = new Scanner(url);*/
         while(scan.hasNextLine())
         {
             String s = scan.nextLine();
@@ -64,6 +68,34 @@ public class Flight
         }
     }
 
+    static ArrayList<Flight> getFlight(Airport origin)
+    {
+        ArrayList<Flight> flight = new ArrayList<>();
+        for(Flight f: flights)
+        {
+            if(f.getOriginAirport().equals(origin))
+            {
+                flight.add(f);
+            }
+        }
+        return flight;
+    }
+
+
+   /* static ArrayList<Flight> getLastFlight(Airport destination)
+    {
+        System.out.println("in");
+        ArrayList<Flight> flight = new ArrayList<>();
+        for(Flight f: flights)
+        {
+            if(f.getDestinationAirport().equals(destination))
+            {
+                flight.add(f);
+            }
+        }
+        return flight;
+    }*/
+
     static Flight getFlight(Airport origin, Airport destination)
     {
         for(Flight f: flights)
@@ -72,6 +104,16 @@ public class Flight
             {
                 return f;
             }
+        }
+        return null;
+    }
+
+    static Flight getFlight(int iD)
+    {
+        for(Flight f: flights)
+        {
+            if(f.getFlightID() == iD)
+                return f;
         }
         return null;
     }
@@ -98,6 +140,16 @@ public class Flight
     {
         return destinationAirport;
     }
+
+    int getFlightID()
+    {
+        return flightID;
+    }
+
+    int getAirfare(){
+        return airfare;
+    }
+
 
     @Override
     public String toString()
