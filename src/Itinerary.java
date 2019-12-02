@@ -11,7 +11,7 @@ public class Itinerary
     private ArrayList<Flight> flights;
     private String passenger;
     private static HashMap<String, ArrayList<Flight>> itinerary = new HashMap<>();
-    private static HashMap<Integer, ArrayList<Flight>> avaiableItinerary = new HashMap<>();
+    private static HashMap<Integer, ArrayList<Flight>> availableItinerary = new HashMap<>();
     static Integer size = 0;
 
     /**
@@ -61,7 +61,7 @@ public class Itinerary
                 flight.add(f);
                 ArrayList<Flight> oneFlight = new ArrayList<>();
                 oneFlight.add(f);
-                avaiableItinerary.put(size, oneFlight);
+                availableItinerary.put(size, oneFlight);
                 size++;
                 break;
             }
@@ -86,7 +86,7 @@ public class Itinerary
                             ArrayList<Flight> oneFlight = new ArrayList<>();
                             oneFlight.add(f);
                             oneFlight.add(x);
-                            avaiableItinerary.put(size, oneFlight);
+                            availableItinerary.put(size, oneFlight);
                             size++;
                             break;
                         }
@@ -126,7 +126,7 @@ public class Itinerary
                                     oneFlight.add(oF);
                                     oneFlight.add(tF);
                                     oneFlight.add(x);
-                                    avaiableItinerary.put(size, oneFlight);
+                                    availableItinerary.put(size, oneFlight);
                                     size++;
                                     break;
                                 }
@@ -155,7 +155,7 @@ public class Itinerary
 
     static ArrayList<Flight> getItinerary(int id)
     {
-        return avaiableItinerary.get(id);
+        return availableItinerary.get(id);
     }
 
     static int getPrice(String p)

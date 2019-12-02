@@ -158,7 +158,7 @@ public class AFRS
                     AFRS.deleteReservation(p, oA, dA);
                     break;
                 default:
-                    System.out.println("Unrecognized command");
+                    System.out.println("error,unknown request");
                     break;
             }
 

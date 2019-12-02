@@ -131,7 +131,7 @@ public class Airport
         return connectionsMin.getTime();
     }
     /**
-     * @param obj the airport being comapred to
+     * @param obj the airport being compared to
      * @return if the airports.txt are the same
      */
     boolean equals(Airport obj) {
