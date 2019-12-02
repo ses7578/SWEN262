@@ -1,14 +1,12 @@
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @author Shannon Sloan
  */
 public class Reservation
 {
-    //private static HashMap<String, Flight> reservations = new HashMap<>();
     private static ArrayList<Reservation> reservation = new ArrayList<>();
     private String passenger;
     private Flight flight;
@@ -50,12 +48,29 @@ public class Reservation
      * @param origin the origin airport
      * @param destination the destination airport
      */
-    public static void makeReservation(String p, Airport origin, Airport destination)
+    public static String makeReservation(String p, Airport origin, Airport destination)
     {
-        ArrayList<Flight> flight= getFlight(origin, destination);
-        for(Flight f: flight) {
+        ArrayList<Flight> flight= Itinerary.getFlights(origin, destination, 2);
+        for(Flight f: flight)
+        {
+            //System.out.println(f);
             new Reservation(p, f);
+            if(f.getDestinationAirport().equals(destination))
+                return "successful";
         }
+        return "failure";
+    }
+
+    public static String makeReservation(int iD, String passenger)
+    {
+        ArrayList<Flight> f = Itinerary.getItinerary(iD);
+        if(f == null)
+            return "failure";
+        for(Flight flight: f)
+        {
+            new Reservation(passenger, flight);
+        }
+        return "successful";
     }
 
     /**
@@ -76,57 +91,21 @@ public class Reservation
         }
     }
 
-    /**
-     * gets flights between airports
-     * @param origin the origin airport
-     * @param destination the final airport
-     * @return a list of flights that will get you to the final destination
-     */
-    private static ArrayList<Flight> getFlight(Airport origin, Airport destination)
-    {
-        ArrayList<Flight> flights = new ArrayList<>();
-        ArrayList<Flight> one = Flight.getFlight(origin);
-        boolean finished = false;
-        for(Flight f: one)
-        {
-            if(f.getDestinationAirport().equals(destination))
-            {
-                flights.add(f);
-                finished = true;
-                break;
-            }
-        }
-        int count = -1;
-        while(!finished&&count<one.size()-1)
-        {
-            count++;
-            ArrayList<Flight> two = Flight.getFlight(one.get(count).getDestinationAirport());
-            for(Flight x: two)
-            {
-                if(x.getDestinationAirport().equals(destination))
-                {
-                    flights.add(one.get(count));
-                    flights.add(x);
-                    finished = true;
-                    break;
-                }
-            }
-        }
-        return flights;
-    }
-
     @Override
     public String toString()
     {
         return passenger+" has a reservation for "+flight;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         new Airport();
         new Flight();
-        Airport o = Airport.getAirport("LAX");
-        Airport d = Airport.getAirport("SEA");
-        Reservation.makeReservation("Bob", o, d);
+        Airport o = Airport.getAirport("IAD");
+        Airport d = Airport.getAirport("LAX");
+        //System.out.println(o);
+        Itinerary.getFlights(o, d, 2);
+        Reservation.makeReservation(0,"Bob");
+        System.out.println(Itinerary.getItinerary(0));
         System.out.println(Itinerary.getPrice("Bob"));
     }
 }

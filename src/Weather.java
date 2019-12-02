@@ -76,11 +76,11 @@ public class Weather
     @Override
     public String toString()
     {
-        String s = "The weather for "+airportCode+" is ";
+        StringBuilder s = new StringBuilder("The weather for " + airportCode + " is ");
         for(Map.Entry mapElement : airportWeather.entrySet())
         {
-            s = s+mapElement.getKey()+" "+mapElement.getValue();
+            s.append(mapElement.getKey()).append(" ").append(mapElement.getValue());
         }
-        return s;
+        return s.toString();
     }
 }

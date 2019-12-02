@@ -2,7 +2,11 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -15,6 +19,8 @@ public class Flight
     private Airport destinationAirport;
     private String departureTime;
     private String arrivalTime;
+    private Date dTime;
+    private Date aTime;
     private int airfare;
     private static ArrayList<Flight> flights = new ArrayList<>();
 
@@ -22,8 +28,7 @@ public class Flight
      * Creates the list of flights.txt
      * @throws IOException if the URL is not found
      */
-    Flight() throws IOException
-    {
+    Flight() throws IOException, ParseException {
         createFlight();
     }
 
@@ -36,12 +41,18 @@ public class Flight
      * @param flightID the flight ID
      * @param airfare the cost of the flight
      */
-    private Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare)
-    {
+    private Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare) throws ParseException {
         originAirport = o;
         destinationAirport = d;
         departureTime = dT;
         arrivalTime = aT;
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        dTime = dateFormat.parse(dT.substring(0, dT.length()-2));
+        aTime = dateFormat.parse(aT.substring(0, aT.length()-2));
+        if(departureTime.charAt(departureTime.length()-1)=='p')
+            dTime.setTime(dTime.getTime()+(12*60*60*1000));
+        if(arrivalTime.charAt(arrivalTime.length()-1)=='p')
+            aTime.setTime(aTime.getTime()+(12*60*60*1000));
         this.flightID = flightID;
         this.airfare = airfare;
     }
@@ -50,9 +61,8 @@ public class Flight
      * Helper to take the file and create a list of flights.txt
      * @throws IOException if the URL is not accessible
      */
-    private void createFlight() throws IOException
-    {
-        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt.txt");
+    private void createFlight() throws IOException, ParseException {
+        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt");
         Scanner scan = new Scanner(url.openStream());
         /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\flights.txt");
         Scanner scan = new Scanner(url);*/
@@ -81,20 +91,6 @@ public class Flight
         return flight;
     }
 
-
-   /* static ArrayList<Flight> getLastFlight(Airport destination)
-    {
-        System.out.println("in");
-        ArrayList<Flight> flight = new ArrayList<>();
-        for(Flight f: flights)
-        {
-            if(f.getDestinationAirport().equals(destination))
-            {
-                flight.add(f);
-            }
-        }
-        return flight;
-    }*/
 
     static Flight getFlight(Airport origin, Airport destination)
     {
@@ -150,7 +146,36 @@ public class Flight
         return airfare;
     }
 
+    long getdTime()
+    {
+        return dTime.getTime();
+    }
 
+    long getaTime()
+    {
+        return aTime.getTime();
+    }
+
+    char getFlightArrivalHour()
+    {
+        return arrivalTime.charAt(arrivalTime.length()-1);
+    }
+
+    char getFlightDepartureHour()
+    {
+        return departureTime.charAt(departureTime.length()-1);
+    }
+
+    boolean checkIfValid(Flight f)
+    {
+        boolean valid = false;
+        Airport a = f.getDestinationAirport();
+        if(getdTime() >= f.getaTime() + a.getConnectionsMin())
+            valid = true;
+        if(getFlightDepartureHour() == 'a' && f.getFlightArrivalHour() == 'p')
+            valid = true;
+        return valid;
+    }
     @Override
     public String toString()
     {
