@@ -11,6 +11,8 @@ public class Itinerary
     private ArrayList<Flight> flights;
     private String passenger;
     private static HashMap<String, ArrayList<Flight>> itinerary = new HashMap<>();
+    private static HashMap<Integer, ArrayList<Flight>> avaiableItinerary = new HashMap<>();
+    static Integer size = 0;
 
     /**
      * Creates the itinerary
@@ -22,6 +24,11 @@ public class Itinerary
         this.flights = flights;
         this.passenger = passenger;
         itinerary.put(passenger, flights);
+    }
+
+    Itinerary(ArrayList<Flight> flights)
+    {
+
     }
 
     /**
@@ -40,6 +47,100 @@ public class Itinerary
         }
     }
 
+    static ArrayList<Flight> getFlights(Airport o, Airport d, int ... connections)
+    {
+        int min = 0;
+        if(connections.length!=0)
+            min = connections[0];
+        ArrayList<Flight> flight = new ArrayList<>();
+        ArrayList<Flight> one = Flight.getFlight(o);
+        for(Flight f: one)
+        {
+            if(f.getDestinationAirport().equals(d))
+            {
+                flight.add(f);
+                ArrayList<Flight> oneFlight = new ArrayList<>();
+                oneFlight.add(f);
+                avaiableItinerary.put(size, oneFlight);
+                size++;
+                break;
+            }
+        }
+        if(min==1)
+        {
+            int count = -1;
+            while (count < one.size() - 1)
+            {
+                count++;
+                ArrayList<Flight> two = Flight.getFlight(one.get(count).getDestinationAirport());
+                Flight f = one.get(count);
+                Airport dA = f.getDestinationAirport();
+                for (Flight x : two)
+                {
+                    if (x.getDestinationAirport().equals(d))
+                    {
+                        if(x.getdTime() >= f.getaTime() + dA.getConnectionsMin())
+                        {
+                            flight.add(f);
+                            flight.add(x);
+                            ArrayList<Flight> oneFlight = new ArrayList<>();
+                            oneFlight.add(f);
+                            oneFlight.add(x);
+                            avaiableItinerary.put(size, oneFlight);
+                            size++;
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+        if(min == 2)
+        {
+            int count = -1;
+            int count2 = -1;
+            ArrayList<Flight> two;
+            ArrayList<Flight> three;
+            while(count<one.size()-1)
+            {
+                count++;
+                two = Flight.getFlight(one.get(count).getDestinationAirport());
+                Flight oF = one.get(count);
+                while(count2<two.size() -1)
+                {
+                    count2++;
+                    three = Flight.getFlight(two.get(count2).getDestinationAirport());
+                    Flight tF = two.get(count2);
+                    if(oF.checkIfValid(tF))
+                    {
+                        for (Flight x : three)
+                        {
+                            if (x.getDestinationAirport().equals(d))
+                            {
+                                if(x.checkIfValid(tF))
+                                {
+                                    flight.add(oF);
+                                    flight.add(tF);
+                                    flight.add(x);
+                                    ArrayList<Flight> oneFlight = new ArrayList<>();
+                                    oneFlight.add(oF);
+                                    oneFlight.add(tF);
+                                    oneFlight.add(x);
+                                    avaiableItinerary.put(size, oneFlight);
+                                    size++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return flight;
+    }
+
+
+
     /**
      * gets the itinerary for a specific person
      * @param p the name of the passenger whose Itinerary
@@ -52,10 +153,17 @@ public class Itinerary
         return i.toString();
     }
 
+    static ArrayList<Flight> getItinerary(int id)
+    {
+        return avaiableItinerary.get(id);
+    }
+
     static int getPrice(String p)
     {
         int price = 0;
         ArrayList<Flight> flights = itinerary.get(p);
+        if(flights == null)
+            return 0;
         for(Flight f: flights)
         {
             price += f.getAirfare();

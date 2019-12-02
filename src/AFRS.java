@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -87,8 +88,7 @@ public class AFRS
         Reservation.deleteReservation(p, o, d);
     }
 
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException, ParseException {
         new Airport();
         new Flight();
         Scanner scan = new Scanner(System.in);

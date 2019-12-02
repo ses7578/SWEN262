@@ -2,7 +2,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.FileLockInterruptionException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,7 +20,9 @@ public class Airport
     private String airportName;
     private Weather weather;
     private String delay;
+    private Date delayCurrent;
     private String connections;
+    private Date connectionsMin;
     private static ArrayList<Airport> airports = new ArrayList<>();
 
 
@@ -24,8 +30,7 @@ public class Airport
      * Creates a list of all airports.txt
      * @throws IOException if there is not an ability to access the URL
      */
-    Airport() throws IOException
-    {
+    Airport() throws IOException, ParseException {
         createAirports();
     }
 
@@ -36,27 +41,28 @@ public class Airport
      * @param delay the current delay time for the airport
      * @param connections the amount of time required between connections
      */
-    private Airport(String airportCode, String airportName, String delay, String connections)
-    {
+    private Airport(String airportCode, String airportName, String delay, String connections) throws ParseException {
         this.airportCode = airportCode;
         this.airportName = airportName;
         this.delay = delay;
         this.connections = connections;
+        DateFormat dateFormat = new SimpleDateFormat("mm");
+        connectionsMin = dateFormat.parse(connections);
+        delayCurrent = dateFormat.parse(delay);
     }
 
     /**
      * Takes all text files and puts them into the airports.txt and then into the lists
      * @throws IOException if there is not an ability to access the URL
      */
-    private void createAirports() throws IOException
-    {
+    private void createAirports() throws IOException, ParseException {
         URL f = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/airports.txt");
         URL c = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/delays.txt");
         URL file = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/connections.txt");
         Scanner scan = new Scanner(c.openStream());
         Scanner scanner1 = new Scanner(file.openStream());
         Scanner scanner = new Scanner(f.openStream());
-        /*File f = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\airports.txt");
+       /* File f = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\airports.txt");
         File c = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\delays.txt");
         File file = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\connections.txt");
         Scanner scanner = new Scanner(f);
@@ -115,6 +121,15 @@ public class Airport
         return this.airportCode;
     }
 
+    Date getDelayCurrent()
+    {
+        return delayCurrent;
+    }
+
+    long getConnectionsMin()
+    {
+        return connectionsMin.getTime();
+    }
     /**
      * @param obj the airport being comapred to
      * @return if the airports.txt are the same
@@ -126,7 +141,7 @@ public class Airport
     @Override
     public String toString() {
         // Returns airport info in string formatted for airport command
-        return "airport," + airportName + "," + weather + "," + delay;
+        return "airport,"+airportName+","+weather+","+delay;
     }
 
 }

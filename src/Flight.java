@@ -3,7 +3,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -16,6 +20,8 @@ public class Flight
     private Airport destinationAirport;
     private String departureTime;
     private String arrivalTime;
+    private Date dTime;
+    private Date aTime;
     private int airfare;
     private static ArrayList<Flight> flights = new ArrayList<>();
 
@@ -23,8 +29,7 @@ public class Flight
      * Creates the list of flights.txt
      * @throws IOException if the URL is not found
      */
-    Flight() throws IOException
-    {
+    Flight() throws IOException, ParseException {
         createFlight();
     }
 
@@ -37,12 +42,18 @@ public class Flight
      * @param flightID the flight ID
      * @param airfare the cost of the flight
      */
-    private Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare)
-    {
+    private Flight(Airport o, Airport d, String dT, String aT, int flightID, int airfare) throws ParseException {
         originAirport = o;
         destinationAirport = d;
         departureTime = dT;
         arrivalTime = aT;
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        dTime = dateFormat.parse(dT.substring(0, dT.length()-2));
+        aTime = dateFormat.parse(aT.substring(0, aT.length()-2));
+        if(departureTime.charAt(departureTime.length()-1)=='p')
+            dTime.setTime(dTime.getTime()+(12*60*60*1000));
+        if(arrivalTime.charAt(arrivalTime.length()-1)=='p')
+            aTime.setTime(aTime.getTime()+(12*60*60*1000));
         this.flightID = flightID;
         this.airfare = airfare;
     }
@@ -76,8 +87,12 @@ public class Flight
             String[] split = s.split(",");
             Airport o = Airport.getAirport(split[0]);
             Airport d = Airport.getAirport(split[1]);
-            flights.add(new Flight(o, d, split[2], split[3],Integer.valueOf(split[4]),
-                    Integer.valueOf(split[5])));
+            try {
+                flights.add(new Flight(o, d, split[2], split[3],Integer.valueOf(split[4]),
+                        Integer.valueOf(split[5])));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -95,20 +110,6 @@ public class Flight
         return flight;
     }
 
-
-   /* static ArrayList<Flight> getLastFlight(Airport destination)
-    {
-        System.out.println("in");
-        ArrayList<Flight> flight = new ArrayList<>();
-        for(Flight f: flights)
-        {
-            if(f.getDestinationAirport().equals(destination))
-            {
-                flight.add(f);
-            }
-        }
-        return flight;
-    }*/
 
     static Flight getFlight(Airport origin, Airport destination)
     {
@@ -164,7 +165,36 @@ public class Flight
         return airfare;
     }
 
+    long getdTime()
+    {
+        return dTime.getTime();
+    }
 
+    long getaTime()
+    {
+        return aTime.getTime();
+    }
+
+    char getFlightArrivalHour()
+    {
+        return arrivalTime.charAt(arrivalTime.length()-1);
+    }
+
+    char getFlightDepartureHour()
+    {
+        return departureTime.charAt(departureTime.length()-1);
+    }
+
+    boolean checkIfValid(Flight f)
+    {
+        boolean valid = false;
+        Airport a = f.getDestinationAirport();
+        if(getdTime() >= f.getaTime() + a.getConnectionsMin())
+            valid = true;
+        if(getFlightDepartureHour() == 'a' && f.getFlightArrivalHour() == 'p')
+            valid = true;
+        return valid;
+    }
     @Override
     public String toString()
     {
