@@ -56,21 +56,21 @@ public class Reservation
             //System.out.println(f);
             new Reservation(p, f);
             if(f.getDestinationAirport().equals(destination))
-                return "successful";
+                return "reserve successful";
         }
-        return "failure";
+        return "reserve failure";
     }
 
     public static String makeReservation(int iD, String passenger)
     {
         ArrayList<Flight> f = Itinerary.getItinerary(iD);
         if(f == null)
-            return "failure";
+            return "reserve failure";
         for(Flight flight: f)
         {
             new Reservation(passenger, flight);
         }
-        return "successful";
+        return "reserve successful";
     }
 
     /**
@@ -79,7 +79,7 @@ public class Reservation
      * @param origin the origin airport
      * @param destination the destination airport
      */
-    static void deleteReservation(String p, Airport origin, Airport destination)
+    static String deleteReservation(String p, Airport origin, Airport destination)
     {
         for(Reservation r: reservation)
         {
@@ -87,8 +87,10 @@ public class Reservation
             {
                 reservation.remove(r);
                 Itinerary.removeFlight(p, origin, destination);
+                return "delete successful";
             }
         }
+        return "delete failure";
     }
 
     @Override
