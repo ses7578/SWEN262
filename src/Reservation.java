@@ -70,7 +70,7 @@ public class Reservation
         {
             new Reservation(passenger, flight);
         }
-        return "reserve successful";
+        return "reserve,successful";
     }
 
     /**
@@ -87,10 +87,10 @@ public class Reservation
             {
                 reservation.remove(r);
                 Itinerary.removeFlight(p, origin, destination);
-                return "delete successful";
+                return "delete,successful";
             }
         }
-        return "delete failure";
+        return "error,reservation not found";
     }
 
     @Override
