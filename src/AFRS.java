@@ -45,6 +45,10 @@ public class AFRS
         return Flight.getFlight(o, d);
     }
 
+    private static ArrayList<Flight> getInfo(Airport o, Airport d, int ... connections)
+    {
+        return Itinerary.getFlights(o, d, connections);
+    }
     /**
      *
      * @param o the starting airport
@@ -68,12 +72,12 @@ public class AFRS
 
     /**
      *
-     * @param i itinerary
+     * @param id the id of the itinerary being used
      * @param p passenger
      */
-    public void makeReservation(Itinerary i, String p)
+    public static void makeReservation(int id, String p)
     {
-
+        Reservation.makeReservation(id, p);
     }
 
 
@@ -116,24 +120,32 @@ public class AFRS
                     }
                     else if (key.length == 4){
                         // TODO itinerary with set number of connections
+                        Airport o = AFRS.getAirport(key[1]);
+                        Airport d = AFRS.getAirport(key[2]);
+                        int minConnections = Integer.parseInt(key[3]);
+                        AFRS.getInfo(o,d,minConnections);
+                        System.out.println("length of 4");
                     }
                     else if (key.length == 5){
                         // TODO itinerary with set order of responses
+                        System.out.println("length of 5");
                     }
                     else{
                         System.out.println("partial-request");
                     }
                     break;
                 case "reserve":
-
                     if(key.length == 3){
                         //TODO Add Reservation
+                        int id = Integer.parseInt(key[1]);
+                        String passenger = key[2];
+                        AFRS.makeReservation(id, passenger);
                         System.out.println("This is where reserved would be");
                     }
                     else{
                         System.out.println("partial-request");
                     }
-
+                    break;
                 case "help":
                     System.out.println("These are the commands you can run: ");
                     System.out.println("airport,airportCode");
@@ -144,8 +156,10 @@ public class AFRS
                     Airport oA = AFRS.getAirport(key[2]);
                     Airport dA = AFRS.getAirport(key[3]);
                     AFRS.deleteReservation(p, oA, dA);
+                    break;
                 default:
                     System.out.println("Unrecognized command");
+                    break;
             }
 
         }
