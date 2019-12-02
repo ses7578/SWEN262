@@ -56,16 +56,16 @@ public class Reservation
             //System.out.println(f);
             new Reservation(p, f);
             if(f.getDestinationAirport().equals(destination))
-                return "reserve successful";
+                return "reserve,successful";
         }
-        return "reserve failure";
+        return "reserve,failure";
     }
 
     public static String makeReservation(int iD, String passenger)
     {
         ArrayList<Flight> f = Itinerary.getItinerary(iD);
         if(f == null)
-            return "reserve failure";
+            return "reserve,failure";
         for(Flight flight: f)
         {
             new Reservation(passenger, flight);
