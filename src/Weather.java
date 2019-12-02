@@ -12,7 +12,9 @@ import java.util.Scanner;
 public class Weather
 {
     private String airportCode;
-    private HashMap<String, Integer> airportWeather = new HashMap<>();
+    private ArrayList<String> airportWeather = new ArrayList<>();
+    private ArrayList<String> airportTemp = new ArrayList<>();
+    private int curIndex;
     private static ArrayList<Weather> weather = new ArrayList<>();
 
     /**
@@ -27,12 +29,15 @@ public class Weather
     /**
      * creates weather for a specific airport
      * @param aCode airport code
-     * @param w the list of weathers
+     * @param weather the list of weathers
+     * @param temperature the list of temperatures
      */
-    private Weather(String aCode, HashMap<String, Integer> w)
+    private Weather(String aCode, ArrayList<String> weather, ArrayList<String> temperature)
     {
         airportCode = aCode;
-        airportWeather = w;
+        airportWeather = weather;
+        airportTemp = temperature;
+        curIndex = 0;
     }
 
     /**
@@ -49,12 +54,18 @@ public class Weather
         {
             String s = scanner.nextLine();
             String[] split = s.split(",");
-            HashMap<String, Integer> w = new HashMap<>();
+
+            // Arraylists to store weather and temperature
+            ArrayList<String> weatherCondition = new ArrayList();
+            ArrayList<String> temperature = new ArrayList();
             for(int i = 1; i<split.length; i+=2)
             {
-                w.put(split[i], Integer.valueOf(split[i+1]));
+                // Adds weather and temp to list
+                weatherCondition.add(split[i]);
+                temperature.add(split[i+1]);
             }
-            weather.add(new Weather(split[0],w));
+            // Adds weather and temp lists to weather
+            weather.add(new Weather(split[0],weatherCondition, temperature));
         }
     }
 
@@ -63,24 +74,35 @@ public class Weather
      * @param a the airport
      * @return the weather
      */
-    static HashMap<String, Integer> getWeather(Airport a)
+    static Weather getWeather(Airport a)
     {
         for(Weather w : weather)
         {
             if(w.airportCode.equals(a.airportCode))
-                return w.airportWeather;
+                return w;
         }
         return null;
     }
 
+    /**
+     * Returns the string in the expected format for the airport command
+     * @return
+     */
     @Override
     public String toString()
     {
-        String s = "The weather for "+airportCode+" is ";
-        for(Map.Entry mapElement : airportWeather.entrySet())
-        {
-            s = s+mapElement.getKey()+" "+mapElement.getValue();
+
+        // gets weather and temp at current index
+        String s = this.airportWeather.get(curIndex) + "," + this.airportTemp.get(curIndex);
+
+        // Iterates index
+        this.curIndex++;
+
+        // If all weather has happened, loops to beginning
+        if(curIndex == this.airportWeather.size()){
+            this.curIndex = 0;
         }
+
         return s;
     }
 }

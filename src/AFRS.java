@@ -72,6 +72,7 @@ public class AFRS
      */
     public void makeReservation(Itinerary i, String p)
     {
+
     }
 
 
@@ -106,12 +107,33 @@ public class AFRS
                         System.out.println(AFRS.getAirport(key[1]));
                     break;
                 case "info":
-                    Airport o = AFRS.getAirport(key[1]);
-                    Airport d = AFRS.getAirport(key[2]);
-                    System.out.println(AFRS.getFlight(o,d));
+
+                    if(key.length == 3) {
+                        Airport o = AFRS.getAirport(key[1]);
+                        Airport d = AFRS.getAirport(key[2]);
+                        // TODO: Max # Connections = default
+                        System.out.println(AFRS.getFlight(o, d));
+                    }
+                    else if (key.length == 4){
+                        // TODO itinerary with set number of connections
+                    }
+                    else if (key.length == 5){
+                        // TODO itinerary with set order of responses
+                    }
+                    else{
+                        System.out.println("partial-request");
+                    }
                     break;
                 case "reserve":
-                    System.out.println("This is where reserved would be");
+
+                    if(key.length == 3){
+                        //TODO Add Reservation
+                        System.out.println("This is where reserved would be");
+                    }
+                    else{
+                        System.out.println("partial-request");
+                    }
+
                 case "help":
                     System.out.println("These are the commands you can run: ");
                     System.out.println("airport,airportCode");

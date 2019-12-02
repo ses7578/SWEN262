@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -52,8 +53,21 @@ public class Flight
      */
     private void createFlight() throws IOException
     {
-        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt.txt");
-        Scanner scan = new Scanner(url.openStream());
+
+        URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/flights.txt");
+
+        Scanner scan = null;
+
+        // Tries to open URL
+        try {
+            scan = new Scanner(url.openStream());
+        }
+        catch (FileNotFoundException e){
+
+            // Prints error if the file can not be opened
+            System.err.println("Unable to open flights file");
+            System.exit(1);
+        }
         /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\flights.txt");
         Scanner scan = new Scanner(url);*/
         while(scan.hasNextLine())

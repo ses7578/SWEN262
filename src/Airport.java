@@ -14,7 +14,7 @@ public class Airport
 {
     String airportCode;
     private String airportName;
-    private HashMap<String, Integer> weather;
+    private Weather weather;
     private String delay;
     private String connections;
     private static ArrayList<Airport> airports = new ArrayList<>();
@@ -84,7 +84,7 @@ public class Airport
      * Puts the weather for the flight
      * @param weather the weather for that airport
      */
-    private void addWeather(HashMap<String, Integer> weather)
+    private void addWeather(Weather weather)
     {
         this.weather = weather;
     }
@@ -124,9 +124,9 @@ public class Airport
     }
 
     @Override
-    public String toString()
-    {
-        return airportCode+": "+airportName+" delay: "+delay+"; minimum connection: "+connections+"; weather: "+weather;
+    public String toString() {
+        // Returns airport info in string formatted for airport command
+        return "airport," + airportName + "," + weather + "," + delay;
     }
 
 }
