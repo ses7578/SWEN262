@@ -1,13 +1,10 @@
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -30,7 +27,7 @@ public class Flight
      * Creates the list of flights.txt
      * @throws IOException if the URL is not found
      */
-    Flight() throws IOException, ParseException {
+    Flight() throws IOException {
         createFlight();
     }
 
@@ -96,6 +93,11 @@ public class Flight
         }
     }
 
+    /**
+     * Gets flights from a specific airport
+     * @param origin the origin airport
+     * @return all flights from that airprot
+     */
     static ArrayList<Flight> getFlight(Airport origin)
     {
         ArrayList<Flight> flight = new ArrayList<>();
@@ -109,81 +111,65 @@ public class Flight
         return flight;
     }
 
-
-    static Flight getFlight(Airport origin, Airport destination)
-    {
-        for(Flight f: flights)
-        {
-            if(f.originAirport.equals(origin)&& f.destinationAirport.equals(destination))
-            {
-                return f;
-            }
-        }
-        return null;
-    }
-
-    static Flight getFlight(int iD)
-    {
-        for(Flight f: flights)
-        {
-            if(f.getFlightID() == iD)
-                return f;
-        }
-        return null;
-    }
-
-    static ArrayList<Flight> getAllFlights(Airport origin, Airport destination)
-    {
-        ArrayList<Flight> f = new ArrayList<>();
-        for(Flight flight: flights)
-        {
-            if(flight.originAirport.equals(origin)&&flight.destinationAirport.equals(destination))
-            {
-                f.add(flight);
-            }
-        }
-        return f;
-    }
-
+    /**
+     * @return the origin airport
+     */
     Airport getOriginAirport()
     {
         return originAirport;
     }
 
+    /**
+     * @return the destination airport
+     */
     Airport getDestinationAirport()
     {
         return destinationAirport;
     }
 
-    int getFlightID()
-    {
-        return flightID;
-    }
-
+    /**
+     * @return the airfare
+     */
     int getAirfare(){
         return airfare;
     }
 
+    /**
+     * @return the departure time
+     */
     long getdTime()
     {
         return dTime.getTime();
     }
 
+    /**
+     * @return the arrival time
+     */
     long getaTime()
     {
         return aTime.getTime();
     }
 
+    /**
+     * @return if flight arrives in a/p
+     */
     char getFlightArrivalHour()
     {
         return arrivalTime.charAt(arrivalTime.length()-1);
     }
 
+    /**
+     * @return if flight departs in a/p
+     */
     char getFlightDepartureHour()
     {
         return departureTime.charAt(departureTime.length()-1);
     }
 
+    /**
+     * @param f the other flight
+     * @return if the flight is allowed based on the arrivals, departures, and minimum connections
+     */
     boolean checkIfValid(Flight f)
     {
         boolean valid = false;
@@ -194,6 +180,7 @@ public class Flight
             valid = true;
         return valid;
     }
+
     @Override
     public String toString()
     {

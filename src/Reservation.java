@@ -1,5 +1,3 @@
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +7,13 @@ public class Reservation
 {
     private static ArrayList<Reservation> reservation = new ArrayList<>();
     private String passenger;
-    public Itinerary itinerary;
+    private Itinerary itinerary;
 
     /**
      * Creates a reservation
      * @param p passenger
      */
-    public Reservation(String p, Itinerary i)
+    private Reservation(String p, Itinerary i)
     {
         passenger = p;
         itinerary = i;
@@ -23,7 +21,7 @@ public class Reservation
     }
 
     /**
-     * Gets the reservation
+     * Gets the reservation for a specific person
      * @param p passenger
      * @return the reservation
      */
@@ -43,6 +41,12 @@ public class Reservation
 
     }
 
+    /**
+     * Gets the reservation at a specific airport
+     * @param p the passenger
+     * @param origin the origin airport
+     * @return the reservation
+     */
     static String getReservation(String p, String origin)
     {
         ArrayList<Reservation> passengerReservations = new ArrayList<>();
@@ -59,6 +63,13 @@ public class Reservation
         return s.toString();
     }
 
+    /**
+     * Gets the reservation for the specific person to a specific place
+     * @param p the passenger
+     * @param origin the origin airport
+     * @param destination the destination airport
+     * @return the reservation
+     */
     static String getReservation(String p, String origin, String destination)
     {
         ArrayList<Reservation> passengerReservations = new ArrayList<>();
@@ -80,7 +91,13 @@ public class Reservation
         return s.toString();
     }
 
-    public static String makeReservation(int iD, String passenger)
+    /**
+     * Makes the reservation
+     * @param iD the itinerary with that id
+     * @param passenger the passenger that is being reserved for
+     * @return if the reservation was successful
+     */
+    static String makeReservation(int iD, String passenger)
     {
         Itinerary i = Itinerary.getItinerary(iD);
         if(i == null)
@@ -121,13 +138,4 @@ public class Reservation
         return itinerary.toString();
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-        new Airport();
-        new Flight();
-        Airport o = Airport.getAirport("IAD");
-        Airport d = Airport.getAirport("LAX");
-        Itinerary.getFlights(o, d, 2);
-        Reservation.makeReservation(0,"Bob");
-        System.out.println(Itinerary.getItinerary(0));
-    }
 }

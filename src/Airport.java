@@ -1,13 +1,10 @@
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.channels.FileLockInterruptionException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -21,7 +18,6 @@ public class Airport
     private Weather weather;
     private String delay;
     private Date delayCurrent;
-    private String connections;
     private Date connectionsMin;
     private static ArrayList<Airport> airports = new ArrayList<>();
 
@@ -44,7 +40,6 @@ public class Airport
         this.airportCode = airportCode;
         this.airportName = airportName;
         this.delay = delay;
-        this.connections = connections;
         DateFormat dateFormat = new SimpleDateFormat("mm");
         connectionsMin = dateFormat.parse(connections);
         delayCurrent = dateFormat.parse(delay);
@@ -111,15 +106,15 @@ public class Airport
         return this.airportCode;
     }
 
-    Date getDelayCurrent()
-    {
-        return delayCurrent;
-    }
 
+    /**
+     * @return the minimum length of time for connections
+     */
     long getConnectionsMin()
     {
         return connectionsMin.getTime();
     }
+
     /**
      * @param obj the airport being compared to
      * @return if the airports.txt are the same

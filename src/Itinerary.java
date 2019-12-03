@@ -1,5 +1,5 @@
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -9,23 +9,29 @@ import java.util.*;
 public class Itinerary
 {
     private ArrayList<Flight> flights;
-    public String origin;
-    public String dest;
-    private static ArrayList<Itinerary> itineraries = new ArrayList<>();
+    String origin;
+    String dest;
     private static HashMap<Integer, Itinerary> availableItinerary = new HashMap<>();
-    static Integer size = 0;
+    private static Integer size = 0;
 
     /**
      * Creates the itinerary
      * @param flights the flights.txt for the itinerary already
      */
-    Itinerary(ArrayList<Flight> flights, String origin, String dest)
+    private Itinerary(ArrayList<Flight> flights, String origin, String dest)
     {
         this.flights = flights;
         this.origin = origin;
         this.dest = dest;
     }
 
+    /**
+     * Gets the flights for a trip
+     * @param o origin airport
+     * @param d destination airport
+     * @param connections the amount of connections
+     * @return the string of itinerarys
+     */
     static String getFlights(Airport o, Airport d, int ... connections)
     {
         // Resets available itineraries
@@ -118,19 +124,6 @@ public class Itinerary
                 }
             }
         }
-
-        // TODO - Sort availableItinerary based off of the given sorting method
-        //Collections.sort(availableItinerary, );
-
-//        Collections.sort(Flight.flights);
-//        List<Itinerary> itineraries = new ArrayList<>((availableItinerary.values()));
-//        Collections.sort(itineraries, Comparator.comparing(Flight::getFlightDepartureHour));
-//
-//        for(Itinerary i : availableItinerary.values()){
-//
-//        }
-        // TODO - End
-
         StringBuilder s = new StringBuilder("info," + availableItinerary.size());
         for(Itinerary i : availableItinerary.values()){
             s.append(i.toString());
@@ -138,11 +131,68 @@ public class Itinerary
         return s.toString();
     }
 
+    /**
+     * Gets the info for a trip
+     * @param o origin airport
+     * @param d destination airport
+     * @param sort the way to sort
+     * @param connections the amount of connections
+     * @return the string of itinerarys
+     */
+    static String getFlights(Airport o, Airport d, String sort, int ... connections)
+    {
+        getFlights(o, d, connections);
+        SortAlgo sortAlgo;
+        switch(sort){
+            case "departure":
+                sortAlgo = new SortByDeparture();
+                break;
+            case "arrival":
+                sortAlgo = new SortByArrival();
+                break;
+            case "airfare":
+                sortAlgo = new SortByAirfare();
+                break;
+            default:
+                return "invalidSort";
+        }
+        HashMap<Integer, Itinerary> holder = new HashMap<>();
+        int count = 0;
+        for(Integer key:availableItinerary.keySet())
+        {
+            ArrayList<Flight> f = availableItinerary.get(key).getFlights();
+            sortAlgo.sortOrder(f);
+            holder.put(count, new Itinerary(f, o.getAirportCode(), d.getAirportCode()));
+            count++;
+        }
+        availableItinerary = holder;
+        StringBuilder s = new StringBuilder("info," + availableItinerary.size());
+        for(Itinerary i : availableItinerary.values()){
+            s.append(i.toString());
+        }
+        return s.toString();
+    }
+
+    /**
+     * @param id the id of the itinerary being looked for
+     * @return the itinerary
+     */
     static Itinerary getItinerary(int id)
     {
         return availableItinerary.get(id-1);
     }
 
+    /**
+     * @return the flights
+     */
+    ArrayList<Flight> getFlights()
+    {
+        return flights;
+    }
+
+    /**
+     * @return the airfare for the flight
+     */
     private int getAirfare()
     {
         int airfare = 0;
@@ -158,10 +208,10 @@ public class Itinerary
     @Override
     public String toString()
     {
-        StringBuilder s = new StringBuilder("\n" + getAirfare() + "," + flights.size());
+        StringBuilder s = new StringBuilder("<nl>" + getAirfare() + "," + flights.size());
         for(Flight f: flights)
         {
-            s.append(f);
+            s.append(f+"<nl>");
         }
         return s.toString();
     }
