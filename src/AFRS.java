@@ -75,9 +75,9 @@ public class AFRS
      * @param id the id of the itinerary being used
      * @param p passenger
      */
-    public static void makeReservation(int id, String p)
+    public static String makeReservation(int id, String p)
     {
-        Reservation.makeReservation(id, p);
+        return Reservation.makeReservation(id, p);
     }
 
 
@@ -113,21 +113,37 @@ public class AFRS
                 case "info":
 
                     if(key.length == 3) {
+
+                        // TODO - Update formatting of string returned
                         Airport o = AFRS.getAirport(key[1]);
                         Airport d = AFRS.getAirport(key[2]);
-                        // TODO: Max # Connections = default
-                        System.out.println(AFRS.getFlight(o, d));
+                        System.out.println(AFRS.getInfo(o, d));
                     }
                     else if (key.length == 4){
-                        // TODO itinerary with set number of connections
+                        // TODO - Update formatting of string returned
                         Airport o = AFRS.getAirport(key[1]);
                         Airport d = AFRS.getAirport(key[2]);
                         int minConnections = Integer.parseInt(key[3]);
-                        AFRS.getInfo(o,d,minConnections);
-                        System.out.println("length of 4");
+                        System.out.println(AFRS.getInfo(o,d,minConnections));
                     }
                     else if (key.length == 5){
-                        // TODO itinerary with set order of responses
+                        // TODO - Update formatting of string returned
+                        Airport o = AFRS.getAirport(key[1]);
+                        Airport d = AFRS.getAirport(key[2]);
+
+                        int minConnections = 1;
+
+                        try {
+                            minConnections = Integer.parseInt(key[3]);
+                        }
+                        catch (NumberFormatException e){
+                            minConnections = 1;
+                        }
+
+                        // TODO - Sort returned itineraries based off of 5th arg
+
+                        System.out.println(AFRS.getInfo(o,d,minConnections));
+
                         System.out.println("length of 5");
                     }
                     else{
@@ -139,8 +155,7 @@ public class AFRS
                         //TODO Add Reservation
                         int id = Integer.parseInt(key[1]);
                         String passenger = key[2];
-                        AFRS.makeReservation(id, passenger);
-                        System.out.println("This is where reserved would be");
+                        System.out.println(AFRS.makeReservation(id, passenger));
                     }
                     else{
                         System.out.println("partial-request");

@@ -155,7 +155,7 @@ public class Itinerary
 
     static ArrayList<Flight> getItinerary(int id)
     {
-        return availableItinerary.get(id);
+        return availableItinerary.get(id-1);
     }
 
     static int getPrice(String p)
