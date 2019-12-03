@@ -120,13 +120,25 @@ public class AFRS
                 if (key.length == 3) {
                     Airport o = AFRS.getAirport(key[1]);
                     Airport d = AFRS.getAirport(key[2]);
-                    System.out.println(AFRS.getInfo(o, d));
+                    if(o == null)
+                        System.err.println("error,unknown origin");
+                    else if(d==null)
+                        System.err.println("error,unknown destination");
+                    else
+                        System.out.println(AFRS.getInfo(o, d));
                 }
                 else if (key.length == 4){
                     Airport o = AFRS.getAirport(key[1]);
                     Airport d = AFRS.getAirport(key[2]);
                     int minConnections = Integer.parseInt(key[3]);
-                    System.out.println(AFRS.getInfo(o,d,minConnections));
+                    if(o == null)
+                        System.err.println("error,unknown origin");
+                    else if(d == null)
+                        System.err.println("error,unknown destination");
+                    else if(minConnections>2)
+                        System.err.println("error,invalid connection limit");
+                    else
+                        System.out.println(AFRS.getInfo(o,d,minConnections));
                 }
                 else if (key.length == 5){
                     Airport o = AFRS.getAirport(key[1]);
@@ -138,7 +150,14 @@ public class AFRS
                     catch (NumberFormatException ignored){
                     }
                     String sort = key[4];
-                    System.out.println(AFRS.getInfo(o,d,sort,minConnections));
+                    if(o == null)
+                        System.err.println("error,unknown origin");
+                    else if(d == null)
+                        System.err.println("error,unknown destination");
+                    else if(minConnections>2)
+                        System.err.println("error,invalid connection limit");
+                    else
+                        System.out.println(AFRS.getInfo(o,d,sort,minConnections));
                 }
                 else{
                     System.err.println("partial-request");

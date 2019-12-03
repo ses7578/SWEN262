@@ -154,7 +154,7 @@ public class Itinerary
                 sortAlgo = new SortByAirfare();
                 break;
             default:
-                return "invalidSort";
+                return "error,invalid sort order";
         }
         HashMap<Integer, Itinerary> holder = new HashMap<>();
         int count = 0;
