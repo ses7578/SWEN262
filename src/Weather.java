@@ -48,8 +48,6 @@ public class Weather
     {
         URL url = new URL("http://www.se.rit.edu/~swen-262/projects/design_project/ProjectDescription/weather.txt");
         Scanner scanner = new Scanner(url.openStream());
-        /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\weather.txt");
-        Scanner scanner = new Scanner(url);*/
         while(scanner.hasNextLine())
         {
             String s = scanner.nextLine();

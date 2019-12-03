@@ -61,12 +61,6 @@ public class Airport
         Scanner scan = new Scanner(c.openStream());
         Scanner scanner1 = new Scanner(file.openStream());
         Scanner scanner = new Scanner(f.openStream());
-       /* File f = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\airports.txt");
-        File c = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\delays.txt");
-        File file = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\connections.txt");
-        Scanner scanner = new Scanner(f);
-        Scanner scan = new Scanner(c);
-        Scanner scanner1 = new Scanner(file);*/
         while(scanner.hasNextLine())
         {
             String s = scanner.nextLine();
@@ -108,7 +102,6 @@ public class Airport
         }
         return null;
     }
-
 
     /**
      * @return the airport code for that specific airport

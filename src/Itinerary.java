@@ -1,6 +1,6 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+
 
 /**
  * Class for the Itinerary for each specific person as well as a way to keep everything together
@@ -24,9 +24,7 @@ public class Itinerary
         this.flights = flights;
         this.origin = origin;
         this.dest = dest;
-//        itineraries.add(this);
     }
-
 
     static String getFlights(Airport o, Airport d, int ... connections)
     {
@@ -75,7 +73,6 @@ public class Itinerary
                             size++;
                             break;
                         }
-
                     }
                 }
             }
@@ -123,6 +120,16 @@ public class Itinerary
         }
 
         // TODO - Sort availableItinerary based off of the given sorting method
+        //Collections.sort(availableItinerary, );
+
+//        Collections.sort(Flight.flights);
+//        List<Itinerary> itineraries = new ArrayList<>((availableItinerary.values()));
+//        Collections.sort(itineraries, Comparator.comparing(Flight::getFlightDepartureHour));
+//
+//        for(Itinerary i : availableItinerary.values()){
+//
+//        }
+        // TODO - End
 
         StringBuilder s = new StringBuilder("info," + availableItinerary.size());
         for(Itinerary i : availableItinerary.values()){
@@ -136,22 +143,22 @@ public class Itinerary
         return availableItinerary.get(id-1);
     }
 
-    private int getPrice()
+    private int getAirfare()
     {
-        int price = 0;
+        int airfare = 0;
         if(flights == null)
             return 0;
         for(Flight f: flights)
         {
-            price += f.getAirfare();
+            airfare += f.getAirfare();
         }
-        return price;
+        return airfare;
     }
 
     @Override
     public String toString()
     {
-        StringBuilder s = new StringBuilder("\n" + getPrice() + "," + flights.size());
+        StringBuilder s = new StringBuilder("\n" + getAirfare() + "," + flights.size());
         for(Flight f: flights)
         {
             s.append(f);

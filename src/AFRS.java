@@ -57,6 +57,7 @@ public class AFRS
     {
         return Itinerary.getFlights(o, d, connections);
     }
+
     /**
      *
      * @param o the starting airport
@@ -98,11 +99,6 @@ public class AFRS
     {
         Reservation.deleteReservation(p, o, d);
     }
-
-//    private static String retrieveReservation()
-//    {
-//        Reservation.getReservation()
-//    }
 
     public static void main(String[] args) throws IOException, ParseException {
         new Airport();

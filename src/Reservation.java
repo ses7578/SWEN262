@@ -20,8 +20,6 @@ public class Reservation
         passenger = p;
         itinerary = i;
         reservation.add(this);
-        //reservations.put(p, f);
-//        Itinerary.addFlight(f, p);
     }
 
     /**
@@ -82,29 +80,6 @@ public class Reservation
         return s.toString();
     }
 
-//    static ArrayList<>Reservation retrieveReservation(String p, Airport ... origin, Airport ... destination){
-//
-//    }
-
-//    /**
-//     * Makes a specific reservation
-//     * @param p the passenger
-//     * @param origin the origin airport
-//     * @param destination the destination airport
-//     */
-//    public static String makeReservation(String p, Airport origin, Airport destination)
-//    {
-//        ArrayList<Flight> flight= Itinerary.getFlights(origin, destination, 2);
-//        for(Flight f: flight)
-//        {
-//            //System.out.println(f);
-//            new Reservation(p, f);
-//            if(f.getDestinationAirport().equals(destination))
-//                return "reserve,successful";
-//        }
-//        return "reserve,failure";
-//    }
-
     public static String makeReservation(int iD, String passenger)
     {
         Itinerary i = Itinerary.getItinerary(iD);
@@ -151,10 +126,8 @@ public class Reservation
         new Flight();
         Airport o = Airport.getAirport("IAD");
         Airport d = Airport.getAirport("LAX");
-        //System.out.println(o);
         Itinerary.getFlights(o, d, 2);
         Reservation.makeReservation(0,"Bob");
         System.out.println(Itinerary.getItinerary(0));
-//        System.out.println(Itinerary.getPrice("Bob"));
     }
 }

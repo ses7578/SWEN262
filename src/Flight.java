@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -79,8 +80,7 @@ public class Flight
             System.err.println("Unable to open flights file");
             System.exit(1);
         }
-        /*File url = new File("C:\\Users\\shann\\IdeaProjects\\SWEN262\\src\\flights.txt");
-        Scanner scan = new Scanner(url);*/
+
         while(scan.hasNextLine())
         {
             String s = scan.nextLine();
@@ -93,7 +93,6 @@ public class Flight
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
