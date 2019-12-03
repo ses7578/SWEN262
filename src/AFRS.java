@@ -9,19 +9,6 @@ import java.util.Scanner;
  */
 public class AFRS
 {
-
-    /**
-     * gets the itinerary that a specific passenger has
-     * @param p passenger name
-     * @param o origin airport
-     * @param d destination airport
-     * @return the Itinerary
-     */
-//    public static String getItinerary(String p, Airport o, Airport d)
-//    {
-//        return Itinerary.getItinerary(p);
-//    }
-
     /**
      * gets the reservation for a specific passenger on a specific flight
      * @param p passenger
@@ -101,7 +88,6 @@ public class AFRS
         return Reservation.makeReservation(id, p);
     }
 
-
     /**
      * deletes a specific reservation for a passenger
      * @param p passenger
@@ -132,45 +118,34 @@ public class AFRS
             {
                 case "airport":
                     if(key.length!=2)
-                        System.out.println("There was an error reading your command");
+                        System.out.println("error,unknown request");
                     else
                         System.out.println(AFRS.getAirport(key[1]));
                     break;
                 case "info":
-
                     if(key.length == 3) {
-
-                        // TODO - Update formatting of string returned
                         Airport o = AFRS.getAirport(key[1]);
                         Airport d = AFRS.getAirport(key[2]);
                         System.out.println(AFRS.getInfo(o, d));
                     }
                     else if (key.length == 4){
-                        // TODO - Update formatting of string returned
                         Airport o = AFRS.getAirport(key[1]);
                         Airport d = AFRS.getAirport(key[2]);
                         int minConnections = Integer.parseInt(key[3]);
                         System.out.println(AFRS.getInfo(o,d,minConnections));
                     }
                     else if (key.length == 5){
-                        // TODO - Update formatting of string returned
                         Airport o = AFRS.getAirport(key[1]);
                         Airport d = AFRS.getAirport(key[2]);
-
                         int minConnections = 1;
-
                         try {
                             minConnections = Integer.parseInt(key[3]);
                         }
                         catch (NumberFormatException e){
                             minConnections = 1;
                         }
-
                         // TODO - Sort returned itineraries based off of 5th arg
-
                         System.out.println(AFRS.getInfo(o,d,minConnections));
-
-                        System.out.println("length of 5");
                     }
                     else{
                         System.out.println("partial-request");
@@ -178,7 +153,6 @@ public class AFRS
                     break;
                 case "reserve":
                     if(key.length == 3){
-                        //TODO Add Reservation
                         int id = Integer.parseInt(key[1]);
                         String passenger = key[2];
                         System.out.println(AFRS.makeReservation(id, passenger));
@@ -199,70 +173,49 @@ public class AFRS
                     AFRS.deleteReservation(p, oA, dA);
                     break;
                 case "retrieve":
-
                     if(key.length == 2){
                         String passenger = key[1];
                         System.out.println(AFRS.getReservation(passenger));
                     }
-
                     else if(key.length == 3){
-
                         String passenger = key[1];
-
                         Airport origin = AFRS.getAirport(key[2]);
-
                         if (origin == null){
                             System.out.println("error,unknown origin");
                         }
                         else{
                             System.out.println(AFRS.getReservation(passenger, origin.airportCode));
                         }
-
                     }
-
                     else if(key.length == 4){
-
                         String passenger = key[1];
-
                         String originCode = "";
-
                         // If the origin is not empty
                         if(!key[2].equals("")){
                             Airport origin = AFRS.getAirport(key[2]);
-
                             if (origin == null){
                                 System.out.println("error,unknown origin");
                                 break;
                             }
-
                             originCode = origin.airportCode;
-
                         }
-
                         Airport dest = AFRS.getAirport(key[3]);
-
                         if (dest == null){
                             System.out.println("error,unknown destination");
                             break;
                         }
-
                         else{
                             System.out.println(AFRS.getReservation(passenger, originCode, dest.airportCode));
                         }
-
                     }
-
                     else{
                         System.out.println("partial-request");
                     }
-
                     break;
                 default:
                     System.out.println("error,unknown request");
                     break;
             }
-
         }
     }
-
 }

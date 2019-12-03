@@ -25,7 +25,6 @@ public class Airport
     private Date connectionsMin;
     private static ArrayList<Airport> airports = new ArrayList<>();
 
-
     /**
      * Creates a list of all airports.txt
      * @throws IOException if there is not an ability to access the URL
@@ -83,7 +82,6 @@ public class Airport
         {
             a.addWeather(Weather.getWeather(a));
         }
-
     }
 
     /**
@@ -115,7 +113,6 @@ public class Airport
     /**
      * @return the airport code for that specific airport
      */
-
     String getAirportCode()
     {
         return this.airportCode;

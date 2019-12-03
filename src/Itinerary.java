@@ -27,30 +27,9 @@ public class Itinerary
 //        itineraries.add(this);
     }
 
-//    Itinerary(ArrayList<Flight> flights)
-//    {
-//
-//    }
-
-//    /**
-//     * adds a flight to the list
-//     * @param f the flight
-//     * @param passenger the passenger
-//     */
-//    static void addFlight(Flight f, String passenger)
-//    {
-//        if(itinerary.containsKey(passenger))
-//            itinerary.get(passenger).add(f);
-//        else {
-//            ArrayList<Flight> flights1 = new ArrayList<>();
-//            flights1.add(f);
-//            itinerary.put(passenger, flights1);
-//        }
-//    }
 
     static String getFlights(Airport o, Airport d, int ... connections)
     {
-
         // Resets available itineraries
         size = 0;
         availableItinerary = new HashMap<>();
@@ -146,27 +125,11 @@ public class Itinerary
         // TODO - Sort availableItinerary based off of the given sorting method
 
         StringBuilder s = new StringBuilder("info," + availableItinerary.size());
-
         for(Itinerary i : availableItinerary.values()){
             s.append(i.toString());
         }
-
         return s.toString();
     }
-
-
-
-//    /**
-//     * gets the itinerary for a specific person
-//     * @param p the name of the passenger whose Itinerary
-//     * @return Returns the string of the itinerary for the specific
-//     */
-//    static String getItinerary(String p)
-//    {
-//        ArrayList<Flight> f = itinerary.get(p);
-//        Itinerary i = new Itinerary(f, p);
-//        return i.toString();
-//    }
 
     static Itinerary getItinerary(int id)
     {
@@ -184,30 +147,6 @@ public class Itinerary
         }
         return price;
     }
-
-//    /**
-//     * removes a flight from the itinerary
-//     * @param p the passenger
-//     * @param origin the origin airport
-//     * @param destination the destination airport
-//     */
-//    static void removeFlight(String p, Airport origin, Airport destination)
-//    {
-//        ArrayList<Flight> flights = itinerary.get(p);
-//        for(Flight f: flights)
-//        {
-//            if(f.getOriginAirport().equals(origin)&&f.getDestinationAirport().equals(destination))
-//            {
-//                flights.remove(f);
-//            }
-//        }
-//        itinerary.remove(p);
-//        itinerary.put(p, flights);
-//    }
-
-//    public ArrayList<Itinerary> getAvailibleItineraries(int iD){
-//        return availableItinerary.get();
-//    }
 
     @Override
     public String toString()

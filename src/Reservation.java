@@ -31,50 +31,39 @@ public class Reservation
      */
     static String getReservation(String p)
     {
-
         ArrayList<Reservation> passengerReservations = new ArrayList<>();
-
         for(Reservation r: reservation)
         {
             if(r.passenger.equals(p))
                 passengerReservations.add(r);
         }
-
         StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
-
         for(Reservation r: passengerReservations){
             s.append(r.toString());
         }
-
         return s.toString();
 
     }
 
     static String getReservation(String p, String origin)
     {
-
         ArrayList<Reservation> passengerReservations = new ArrayList<>();
-
         for(Reservation r: reservation)
         {
             if(r.passenger.equals(p)&&r.itinerary.origin.equals(origin))
                 passengerReservations.add(r);
         }
-
         StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
 
         for(Reservation r: passengerReservations){
             s.append(r.toString());
         }
-
         return s.toString();
     }
 
     static String getReservation(String p, String origin, String destination)
     {
-
         ArrayList<Reservation> passengerReservations = new ArrayList<>();
-
         for(Reservation r: reservation)
         {
             if(origin.equals("")){
@@ -86,13 +75,10 @@ public class Reservation
                     passengerReservations.add(r);
             }
         }
-
         StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
-
         for(Reservation r: passengerReservations){
             s.append(r.toString());
         }
-
         return s.toString();
     }
 
@@ -124,9 +110,7 @@ public class Reservation
         Itinerary i = Itinerary.getItinerary(iD);
         if(i == null)
             return "reserve,failure";
-
         new Reservation(passenger, i);
-
         return "reserve,successful";
     }
 
@@ -139,7 +123,6 @@ public class Reservation
     static void deleteReservation(String p, Airport origin, Airport destination)
     {
         Reservation toRemove = null;
-
         for(Reservation r: reservation)
         {
             if(r.passenger.equals(p)&&r.itinerary.origin.equals(origin.getAirportCode())&&r.itinerary.dest.equals(destination.getAirportCode()))

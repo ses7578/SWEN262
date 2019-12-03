@@ -91,7 +91,6 @@ public class Weather
     @Override
     public String toString()
     {
-
         // gets weather and temp at current index
         String s = this.airportWeather.get(curIndex) + "," + this.airportTemp.get(curIndex);
 
@@ -102,7 +101,6 @@ public class Weather
         if(curIndex == this.airportWeather.size()){
             this.curIndex = 0;
         }
-
         return s;
     }
 }
