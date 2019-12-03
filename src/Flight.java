@@ -198,8 +198,8 @@ public class Flight
     @Override
     public String toString()
     {
-        return "Flight number "+flightID+": from Airport " + originAirport.getAirportCode()+" to Airport "+destinationAirport.getAirportCode()
-                +" Departure: "+departureTime+ " Arrival: " + arrivalTime+" Cost: $"+airfare;
+        return flightID + "," + originAirport.getAirportCode() + "," + departureTime
+                + ","+ destinationAirport.getAirportCode() + "," + arrivalTime;
     }
 
 }

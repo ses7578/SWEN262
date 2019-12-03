@@ -17,9 +17,30 @@ public class AFRS
      * @param d destination airport
      * @return the Itinerary
      */
-    public static String getItinerary(String p, Airport o, Airport d)
+//    public static String getItinerary(String p, Airport o, Airport d)
+//    {
+//        return Itinerary.getItinerary(p);
+//    }
+
+    /**
+     * gets the reservation for a specific passenger on a specific flight
+     * @param p passenger
+     * @return the reservation for that specific person has
+     */
+    public static String getReservation(String p)
     {
-        return Itinerary.getItinerary(p);
+        return Reservation.getReservation(p);
+    }
+
+    /**
+     * gets the reservation for a specific passenger on a specific flight
+     * @param p passenger
+     * @param o origin airport
+     * @return the reservation for that specific person has
+     */
+    public static String getReservation(String p, String o)
+    {
+        return Reservation.getReservation(p, o);
     }
 
     /**
@@ -29,7 +50,7 @@ public class AFRS
      * @param d destination airport
      * @return the reservation for that specific person has
      */
-    public static Reservation getReservation(String p, Airport o, Airport d)
+    public static String getReservation(String p, String o, String d)
     {
         return Reservation.getReservation(p, o, d);
     }
@@ -45,7 +66,7 @@ public class AFRS
         return Flight.getFlight(o, d);
     }
 
-    private static ArrayList<Flight> getInfo(Airport o, Airport d, int ... connections)
+    private static String getInfo(Airport o, Airport d, int ... connections)
     {
         return Itinerary.getFlights(o, d, connections);
     }
@@ -92,6 +113,11 @@ public class AFRS
         Reservation.deleteReservation(p, o, d);
     }
 
+//    private static String retrieveReservation()
+//    {
+//        Reservation.getReservation()
+//    }
+
     public static void main(String[] args) throws IOException, ParseException {
         new Airport();
         new Flight();
@@ -101,7 +127,7 @@ public class AFRS
         while(!(input = scan.nextLine()).equals("quit"))
         {
             input = input.replace(" ", "");
-            String[] key = input.split(",");
+            String[] key = input.split(",", -1);
             switch(key[0])
             {
                 case "airport":
@@ -171,6 +197,65 @@ public class AFRS
                     Airport oA = AFRS.getAirport(key[2]);
                     Airport dA = AFRS.getAirport(key[3]);
                     AFRS.deleteReservation(p, oA, dA);
+                    break;
+                case "retrieve":
+
+                    if(key.length == 2){
+                        String passenger = key[1];
+                        System.out.println(AFRS.getReservation(passenger));
+                    }
+
+                    else if(key.length == 3){
+
+                        String passenger = key[1];
+
+                        Airport origin = AFRS.getAirport(key[2]);
+
+                        if (origin == null){
+                            System.out.println("error,unknown origin");
+                        }
+                        else{
+                            System.out.println(AFRS.getReservation(passenger, origin.airportCode));
+                        }
+
+                    }
+
+                    else if(key.length == 4){
+
+                        String passenger = key[1];
+
+                        String originCode = "";
+
+                        // If the origin is not empty
+                        if(!key[2].equals("")){
+                            Airport origin = AFRS.getAirport(key[2]);
+
+                            if (origin == null){
+                                System.out.println("error,unknown origin");
+                                break;
+                            }
+
+                            originCode = origin.airportCode;
+
+                        }
+
+                        Airport dest = AFRS.getAirport(key[3]);
+
+                        if (dest == null){
+                            System.out.println("error,unknown destination");
+                            break;
+                        }
+
+                        else{
+                            System.out.println(AFRS.getReservation(passenger, originCode, dest.airportCode));
+                        }
+
+                    }
+
+                    else{
+                        System.out.println("partial-request");
+                    }
+
                     break;
                 default:
                     System.out.println("error,unknown request");

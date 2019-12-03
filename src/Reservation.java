@@ -9,67 +9,124 @@ public class Reservation
 {
     private static ArrayList<Reservation> reservation = new ArrayList<>();
     private String passenger;
-    private Flight flight;
+    public Itinerary itinerary;
 
     /**
      * Creates a reservation
      * @param p passenger
-     * @param f flight
      */
-    public Reservation(String p, Flight f)
+    public Reservation(String p, Itinerary i)
     {
         passenger = p;
-        flight = f;
+        itinerary = i;
         reservation.add(this);
         //reservations.put(p, f);
-        Itinerary.addFlight(f, p);
+//        Itinerary.addFlight(f, p);
     }
 
     /**
      * Gets the reservation
      * @param p passenger
-     * @param origin the starting destination
-     * @param destination the ending destination
      * @return the reservation
      */
-    static Reservation getReservation(String p, Airport origin, Airport destination)
+    static String getReservation(String p)
     {
+
+        ArrayList<Reservation> passengerReservations = new ArrayList<>();
+
         for(Reservation r: reservation)
         {
-            if(r.passenger.equals(p)&&r.flight.getOriginAirport().equals(origin)&&(r.flight.getDestinationAirport().equals(destination)))
-                return r;
+            if(r.passenger.equals(p))
+                passengerReservations.add(r);
         }
-        return null;
+
+        StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
+
+        for(Reservation r: passengerReservations){
+            s.append(r.toString());
+        }
+
+        return s.toString();
+
     }
 
-    /**
-     * Makes a specific reservation
-     * @param p the passenger
-     * @param origin the origin airport
-     * @param destination the destination airport
-     */
-    public static String makeReservation(String p, Airport origin, Airport destination)
+    static String getReservation(String p, String origin)
     {
-        ArrayList<Flight> flight= Itinerary.getFlights(origin, destination, 2);
-        for(Flight f: flight)
+
+        ArrayList<Reservation> passengerReservations = new ArrayList<>();
+
+        for(Reservation r: reservation)
         {
-            //System.out.println(f);
-            new Reservation(p, f);
-            if(f.getDestinationAirport().equals(destination))
-                return "reserve,successful";
+            if(r.passenger.equals(p)&&r.itinerary.origin.equals(origin))
+                passengerReservations.add(r);
         }
-        return "reserve,failure";
+
+        StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
+
+        for(Reservation r: passengerReservations){
+            s.append(r.toString());
+        }
+
+        return s.toString();
     }
+
+    static String getReservation(String p, String origin, String destination)
+    {
+
+        ArrayList<Reservation> passengerReservations = new ArrayList<>();
+
+        for(Reservation r: reservation)
+        {
+            if(origin.equals("")){
+                if (r.passenger.equals(p) && (r.itinerary.dest.equals(destination)))
+                    passengerReservations.add(r);
+            }
+            else {
+                if (r.passenger.equals(p) && r.itinerary.origin.equals(origin) && (r.itinerary.dest.equals(destination)))
+                    passengerReservations.add(r);
+            }
+        }
+
+        StringBuilder s = new StringBuilder("retrieve," + passengerReservations.size());
+
+        for(Reservation r: passengerReservations){
+            s.append(r.toString());
+        }
+
+        return s.toString();
+    }
+
+//    static ArrayList<>Reservation retrieveReservation(String p, Airport ... origin, Airport ... destination){
+//
+//    }
+
+//    /**
+//     * Makes a specific reservation
+//     * @param p the passenger
+//     * @param origin the origin airport
+//     * @param destination the destination airport
+//     */
+//    public static String makeReservation(String p, Airport origin, Airport destination)
+//    {
+//        ArrayList<Flight> flight= Itinerary.getFlights(origin, destination, 2);
+//        for(Flight f: flight)
+//        {
+//            //System.out.println(f);
+//            new Reservation(p, f);
+//            if(f.getDestinationAirport().equals(destination))
+//                return "reserve,successful";
+//        }
+//        return "reserve,failure";
+//    }
 
     public static String makeReservation(int iD, String passenger)
     {
-        ArrayList<Flight> f = Itinerary.getItinerary(iD);
-        if(f == null)
+        Itinerary i = Itinerary.getItinerary(iD);
+        if(i == null)
             return "reserve,failure";
-        for(Flight flight: f)
-        {
-            new Reservation(passenger, flight);
-        }
+
+        new Reservation(passenger, i);
+
         return "reserve,successful";
     }
 
@@ -79,24 +136,31 @@ public class Reservation
      * @param origin the origin airport
      * @param destination the destination airport
      */
-    static String deleteReservation(String p, Airport origin, Airport destination)
+    static void deleteReservation(String p, Airport origin, Airport destination)
     {
+        Reservation toRemove = null;
+
         for(Reservation r: reservation)
         {
-            if(r.passenger.equals(p)&&r.flight.getOriginAirport().equals(origin)&&r.flight.getDestinationAirport().equals(destination))
+            if(r.passenger.equals(p)&&r.itinerary.origin.equals(origin.getAirportCode())&&r.itinerary.dest.equals(destination.getAirportCode()))
             {
-                reservation.remove(r);
-                Itinerary.removeFlight(p, origin, destination);
-                return "delete,successful";
+                toRemove = r;
             }
         }
-        return "error,reservation not found";
+
+        if(toRemove == null){
+            System.out.println("error,reservation not found");
+        }
+        else{
+            reservation.remove(toRemove);
+            System.out.println("delete,successful");
+        }
     }
 
     @Override
     public String toString()
     {
-        return passenger+" has a reservation for "+flight;
+        return itinerary.toString();
     }
 
     public static void main(String[] args) throws IOException, ParseException {
@@ -108,6 +172,6 @@ public class Reservation
         Itinerary.getFlights(o, d, 2);
         Reservation.makeReservation(0,"Bob");
         System.out.println(Itinerary.getItinerary(0));
-        System.out.println(Itinerary.getPrice("Bob"));
+//        System.out.println(Itinerary.getPrice("Bob"));
     }
 }

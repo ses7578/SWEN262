@@ -9,46 +9,52 @@ import java.util.HashMap;
 public class Itinerary
 {
     private ArrayList<Flight> flights;
-    private String passenger;
-    private static HashMap<String, ArrayList<Flight>> itinerary = new HashMap<>();
-    private static HashMap<Integer, ArrayList<Flight>> availableItinerary = new HashMap<>();
+    public String origin;
+    public String dest;
+    private static ArrayList<Itinerary> itineraries = new ArrayList<>();
+    private static HashMap<Integer, Itinerary> availableItinerary = new HashMap<>();
     static Integer size = 0;
 
     /**
      * Creates the itinerary
      * @param flights the flights.txt for the itinerary already
-     * @param passenger the passenger who's itinerary is
      */
-    Itinerary(ArrayList<Flight> flights, String passenger)
+    Itinerary(ArrayList<Flight> flights, String origin, String dest)
     {
         this.flights = flights;
-        this.passenger = passenger;
-        itinerary.put(passenger, flights);
+        this.origin = origin;
+        this.dest = dest;
+//        itineraries.add(this);
     }
 
-    Itinerary(ArrayList<Flight> flights)
+//    Itinerary(ArrayList<Flight> flights)
+//    {
+//
+//    }
+
+//    /**
+//     * adds a flight to the list
+//     * @param f the flight
+//     * @param passenger the passenger
+//     */
+//    static void addFlight(Flight f, String passenger)
+//    {
+//        if(itinerary.containsKey(passenger))
+//            itinerary.get(passenger).add(f);
+//        else {
+//            ArrayList<Flight> flights1 = new ArrayList<>();
+//            flights1.add(f);
+//            itinerary.put(passenger, flights1);
+//        }
+//    }
+
+    static String getFlights(Airport o, Airport d, int ... connections)
     {
 
-    }
+        // Resets available itineraries
+        size = 0;
+        availableItinerary = new HashMap<>();
 
-    /**
-     * adds a flight to the list
-     * @param f the flight
-     * @param passenger the passenger
-     */
-    static void addFlight(Flight f, String passenger)
-    {
-        if(itinerary.containsKey(passenger))
-            itinerary.get(passenger).add(f);
-        else {
-            ArrayList<Flight> flights1 = new ArrayList<>();
-            flights1.add(f);
-            itinerary.put(passenger, flights1);
-        }
-    }
-
-    static ArrayList<Flight> getFlights(Airport o, Airport d, int ... connections)
-    {
         int min = 0;
         if(connections.length!=0)
             min = connections[0];
@@ -61,7 +67,7 @@ public class Itinerary
                 flight.add(f);
                 ArrayList<Flight> oneFlight = new ArrayList<>();
                 oneFlight.add(f);
-                availableItinerary.put(size, oneFlight);
+                availableItinerary.put(size, new Itinerary(oneFlight, o.airportCode, d.airportCode));
                 size++;
                 break;
             }
@@ -86,7 +92,7 @@ public class Itinerary
                             ArrayList<Flight> oneFlight = new ArrayList<>();
                             oneFlight.add(f);
                             oneFlight.add(x);
-                            availableItinerary.put(size, oneFlight);
+                            availableItinerary.put(size, new Itinerary(oneFlight, o.airportCode, d.airportCode));
                             size++;
                             break;
                         }
@@ -126,7 +132,7 @@ public class Itinerary
                                     oneFlight.add(oF);
                                     oneFlight.add(tF);
                                     oneFlight.add(x);
-                                    availableItinerary.put(size, oneFlight);
+                                    availableItinerary.put(size, new Itinerary(oneFlight, o.airportCode, d.airportCode));
                                     size++;
                                     break;
                                 }
@@ -136,32 +142,40 @@ public class Itinerary
                 }
             }
         }
-        return flight;
+
+        // TODO - Sort availableItinerary based off of the given sorting method
+
+        StringBuilder s = new StringBuilder("info," + availableItinerary.size());
+
+        for(Itinerary i : availableItinerary.values()){
+            s.append(i.toString());
+        }
+
+        return s.toString();
     }
 
 
 
-    /**
-     * gets the itinerary for a specific person
-     * @param p the name of the passenger whose Itinerary
-     * @return Returns the string of the itinerary for the specific
-     */
-    static String getItinerary(String p)
-    {
-        ArrayList<Flight> f = itinerary.get(p);
-        Itinerary i = new Itinerary(f, p);
-        return i.toString();
-    }
+//    /**
+//     * gets the itinerary for a specific person
+//     * @param p the name of the passenger whose Itinerary
+//     * @return Returns the string of the itinerary for the specific
+//     */
+//    static String getItinerary(String p)
+//    {
+//        ArrayList<Flight> f = itinerary.get(p);
+//        Itinerary i = new Itinerary(f, p);
+//        return i.toString();
+//    }
 
-    static ArrayList<Flight> getItinerary(int id)
+    static Itinerary getItinerary(int id)
     {
         return availableItinerary.get(id-1);
     }
 
-    static int getPrice(String p)
+    private int getPrice()
     {
         int price = 0;
-        ArrayList<Flight> flights = itinerary.get(p);
         if(flights == null)
             return 0;
         for(Flight f: flights)
@@ -171,33 +185,37 @@ public class Itinerary
         return price;
     }
 
-    /**
-     * removes a flight from the itinerary
-     * @param p the passenger
-     * @param origin the origin airport
-     * @param destination the destination airport
-     */
-    static void removeFlight(String p, Airport origin, Airport destination)
-    {
-        ArrayList<Flight> flights = itinerary.get(p);
-        for(Flight f: flights)
-        {
-            if(f.getOriginAirport().equals(origin)&&f.getDestinationAirport().equals(destination))
-            {
-                flights.remove(f);
-            }
-        }
-        itinerary.remove(p);
-        itinerary.put(p, flights);
-    }
+//    /**
+//     * removes a flight from the itinerary
+//     * @param p the passenger
+//     * @param origin the origin airport
+//     * @param destination the destination airport
+//     */
+//    static void removeFlight(String p, Airport origin, Airport destination)
+//    {
+//        ArrayList<Flight> flights = itinerary.get(p);
+//        for(Flight f: flights)
+//        {
+//            if(f.getOriginAirport().equals(origin)&&f.getDestinationAirport().equals(destination))
+//            {
+//                flights.remove(f);
+//            }
+//        }
+//        itinerary.remove(p);
+//        itinerary.put(p, flights);
+//    }
+
+//    public ArrayList<Itinerary> getAvailibleItineraries(int iD){
+//        return availableItinerary.get();
+//    }
 
     @Override
     public String toString()
     {
-        StringBuilder s = new StringBuilder(passenger + "'s Itinerary:\n");
+        StringBuilder s = new StringBuilder("\n" + getPrice() + "," + flights.size());
         for(Flight f: flights)
         {
-            s.append(f).append("\n");
+            s.append(f);
         }
         return s.toString();
     }
