@@ -211,7 +211,7 @@ public class Itinerary
         StringBuilder s = new StringBuilder("<nl>" + getAirfare() + "," + flights.size());
         for(Flight f: flights)
         {
-            s.append(f+"<nl>");
+            s.append(f);
         }
         return s.toString();
     }
